@@ -8,6 +8,7 @@ public class CapstoneApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CapstoneApplication.class, args);
+		System.out.println("Running");
 	}
 
 }
