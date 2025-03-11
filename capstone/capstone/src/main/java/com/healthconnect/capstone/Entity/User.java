@@ -1,23 +1,24 @@
 package com.healthconnect.capstone.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.healthconnect.capstone.Variables.Role;
 
 
-@Entity
-@Table(name="Users")
-public class User {
-	@Id
-	  @GeneratedValue(strategy = GenerationType.IDENTITY)
-	  @Column(name="id")
+
+public class User implements UserDetails{
+
 	  private int id;
 	  private String username;
 	  private String password;
 	  private String email;
+	  private String contactNumber;
+	  private Role role;
 	  
 	  
 	  
@@ -38,5 +39,33 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	public String getContactNumber() {
+		return contactNumber;
+	}
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+	
+	
+	
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return List.of(new SimpleGrantedAuthority(role.name()));
 	}
 }
