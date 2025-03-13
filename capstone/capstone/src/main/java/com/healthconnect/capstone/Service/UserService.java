@@ -2,7 +2,9 @@ package com.healthconnect.capstone.Service;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +24,7 @@ import com.google.api.gax.rpc.ApiException;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import com.healthconnect.capstone.Entity.UserEntity;
@@ -101,6 +104,20 @@ public class UserService implements UserDetailsService {
 	    return new User(userEntity.getUsername(), userEntity.getPassword(), authorities);
 	}
 
-	
+	public boolean isUsernameAvailable(String username) throws InterruptedException, ExecutionException {
+	    Firestore dbFirestore = FirestoreClient.getFirestore();
+
+	    // Retrieve all documents from the "Users" collection
+	    ApiFuture<QuerySnapshot> future = dbFirestore.collection("Users").get();
+	    QuerySnapshot querySnapshot = future.get();
+
+	    // Extract all usernames from the documents
+	    List<String> usernames = querySnapshot.getDocuments().stream()
+	            .map(document -> document.getId()) // Assuming the document ID is the username
+	            .collect(Collectors.toList());
+
+	    // Check if the inputted username exists in the list
+	    return !usernames.contains(username);
+	}
 	
 }
