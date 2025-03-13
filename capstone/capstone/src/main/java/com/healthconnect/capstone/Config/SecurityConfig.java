@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                 		 req->req.requestMatchers(
                 				 "/user/login","/user/register"
+                				 ,"/register/**"
                          		)
                                 .permitAll()
                                 .anyRequest()
