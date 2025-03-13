@@ -38,12 +38,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                 		 req->req.requestMatchers(
-<<<<<<< Updated upstream
-                				 "/user/login","/user/register"
-=======
                 				 "/user/login","/user/register","/user/check-username"
                 				 ,"/register/**"
->>>>>>> Stashed changes
                          		)
                                 .permitAll()
                                 .anyRequest()
