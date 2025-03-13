@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.firebase.auth.FirebaseAuthException;
@@ -26,6 +27,9 @@ public class UserController {
 	@Autowired 
 	AuthenticationService authenticationService;
 	
+	@Autowired
+	UserService userService;
+	
 	@CrossOrigin
 	@PostMapping("/register")
     public String insertApplicant(@RequestBody UserEntity user) throws InterruptedException, ExecutionException {
@@ -39,6 +43,16 @@ public class UserController {
 			) throws FirebaseAuthException{
 				return ResponseEntity.ok(authenticationService.authenticate(request));
 	}
+	
+	@GetMapping("/check-username")
+    public boolean checkUsernameAvailability(@RequestParam String username) {
+        try {
+            return userService.isUsernameAvailable(username);
+        } catch (InterruptedException | ExecutionException e) {
+            // Handle exceptions appropriately
+            throw new RuntimeException("Error checking username availability", e);
+        }
+    }
 	
 	@GetMapping("/test")
     public String print() {
