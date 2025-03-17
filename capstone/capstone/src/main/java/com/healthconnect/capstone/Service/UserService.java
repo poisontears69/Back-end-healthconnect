@@ -111,13 +111,13 @@ public class UserService implements UserDetailsService {
 	    ApiFuture<QuerySnapshot> future = dbFirestore.collection("Users").get();
 	    QuerySnapshot querySnapshot = future.get();
 
-	    // Extract all usernames from the documents
+	    // Extract all usernames from the documents and convert to lowercase
 	    List<String> usernames = querySnapshot.getDocuments().stream()
-	            .map(document -> document.getId()) // Assuming the document ID is the username
+	            .map(document -> document.getId().toLowerCase()) // Case-insensitive comparison
 	            .collect(Collectors.toList());
 
-	    // Check if the inputted username exists in the list
-	    return !usernames.contains(username);
+	    // Check if the inputted username (converted to lowercase) exists in the list
+	    return !usernames.contains(username.toLowerCase());
 	}
 	
 }
