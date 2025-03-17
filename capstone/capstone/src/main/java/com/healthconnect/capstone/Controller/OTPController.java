@@ -40,6 +40,7 @@ public class OTPController {
         return "sads";
     }
 	
+	@CrossOrigin
 	@PostMapping("/register/verifyOtp")
 	public String verifyOTP(@RequestBody OTPEntity otp) throws InterruptedException, ExecutionException, MessagingException {
 	    return otpService.verifyOTP(otp);
