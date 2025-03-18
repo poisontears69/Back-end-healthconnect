@@ -72,8 +72,6 @@ public class UserService implements UserDetailsService {
             DocumentReference userRef = dbFirestore.collection("Users").document(username);
             DocumentSnapshot userSnapshot = userRef.get().get();
 
-
-
             if (userSnapshot.exists()) {
                 UserEntity userEntity = userSnapshot.toObject(UserEntity.class); // Log userEntity to verify mapping
                 UserDetails userDetails = buildUserDetails(userEntity);

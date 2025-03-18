@@ -69,7 +69,7 @@ public class AuthenticationService {
 	public JWTResponseDTO authenticate(LoginPayloadDTO request) {
 	    try {
 	        // Authenticate user
-	    	System.out.println(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+	    	System.out.println(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()).isAuthenticated());
 
 	    	authenticationManager.authenticate(
 	    		    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
