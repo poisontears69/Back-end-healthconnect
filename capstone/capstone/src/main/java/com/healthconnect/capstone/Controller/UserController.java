@@ -40,7 +40,7 @@ public class UserController {
 	@PostMapping("/login")
 	public ResponseEntity<JWTResponseDTO> login(
 			@RequestBody LoginPayloadDTO request
-			) throws FirebaseAuthException{
+			) throws FirebaseAuthException, InterruptedException, ExecutionException{
 				return ResponseEntity.ok(authenticationService.authenticate(request));
 	}
 	
