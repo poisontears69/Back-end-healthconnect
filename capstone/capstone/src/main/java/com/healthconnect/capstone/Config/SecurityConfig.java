@@ -33,47 +33,48 @@ public class SecurityConfig {
 	@Autowired
 	private JwtAuthenticationFilter jwtAuthenticationFilter;
 	
-//	@Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//
-//		SecurityFilterChain sc = http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(
-//                		 req->req.requestMatchers(
-//                				 "/user/login","/user/register","/user/check-username"
-//                				 ,"/register/**"
-//                				 ,"/sample/**"
-//                         		)
-//                                .permitAll()
-//                                .anyRequest()
-//                                .authenticated()
-//                ).userDetailsService(userService)
-//                .sessionManagement(session->session
-//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-////                .exceptionHandling(
-////                        e->e.accessDeniedHandler(
-////                                        (request, response, accessDeniedException)->response.setStatus(403)
-////                                )
-////                                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-//                .build();
-//        
-////		System.out.print(sc);
-//        return sc;
-//    }
-	
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-	    return http
-	            .csrf(AbstractHttpConfigurer::disable)
-	            .authorizeHttpRequests(req ->
-	                    req.anyRequest().permitAll() // Allows all requests without authentication
-	            )
-	            .sessionManagement(session -> session
-	                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-	            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-	            .build();
-	}
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+		SecurityFilterChain sc = http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(
+                		 req->req.requestMatchers(
+                				 "/user/login","/user/register","/user/check-username"
+                				 ,"/register/**"
+                				 ,"/sample/**"
+                				 ,"/clinic/**"
+                         		)
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated()
+                ).userDetailsService(userService)
+                .sessionManagement(session->session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//                .exceptionHandling(
+//                        e->e.accessDeniedHandler(
+//                                        (request, response, accessDeniedException)->response.setStatus(403)
+//                                )
+//                                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+                .build();
+        
+//		System.out.print(sc);
+        return sc;
+    }
+	
+//	@Bean
+//	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//	    return http
+//	            .csrf(AbstractHttpConfigurer::disable)
+//	            .authorizeHttpRequests(req ->
+//	                    req.anyRequest().permitAll() // Allows all requests without authentication
+//	            )
+//	            .sessionManagement(session -> session
+//	                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//	            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//	            .build();
+//	}
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
