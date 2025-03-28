@@ -15,18 +15,14 @@ import com.healthconnect.capstone.Variables.Role;
 @SuppressWarnings("serial")
 public class UserEntity implements UserDetails, Serializable {
 
-    private int id;
+    private String id;
     private String username;
     private String password;
     private String email;
     private String contactNumber;
     private Role role;
 
-    // Firestore requires these fields
-    private boolean accountNonExpired = true;
-    private boolean accountNonLocked = true;
-    private boolean credentialsNonExpired = true;
-    private boolean enabled = true;
+    
 
     // Add authorities field for Firestore mapping
 
@@ -37,12 +33,12 @@ public class UserEntity implements UserDetails, Serializable {
 
     // Getters and setters for Firestore and UserDetails
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(String doctorId) {
+        this.id = doctorId;
     }
 
     @Override

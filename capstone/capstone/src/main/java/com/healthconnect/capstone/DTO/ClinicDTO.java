@@ -4,6 +4,7 @@ public class ClinicDTO {
 	private String name;
 	private String description;
 	private String doctorName;
+	private String id;
 	
 	
 	public String getName() {
@@ -23,6 +24,12 @@ public class ClinicDTO {
 	}
 	public void setDoctorName(String doctorName) {
 		this.doctorName = doctorName;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	

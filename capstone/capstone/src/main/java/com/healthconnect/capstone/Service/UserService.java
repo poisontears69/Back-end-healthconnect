@@ -41,7 +41,7 @@ public class UserService implements UserDetailsService {
 	        // Create a new User object for the admin
 	    	UserEntity adminUser = new UserEntity();
 	        adminUser.setUsername("admin");
-	        adminUser.setPassword("admin");
+	        adminUser.setPassword(encoder.encode("admin"));
 	        adminUser.setEmail("admin");
 	        adminUser.setRole(Role.ADMIN);
 

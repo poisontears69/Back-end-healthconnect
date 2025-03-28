@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class BookingEntity {
 
+	private String id;
     private Date startTime; // Start of the time range
     private Date endTime;   // End of the time range
     private String booker;
@@ -74,4 +75,12 @@ public class BookingEntity {
                 ", service='" + service + '\'' +
                 '}';
     }
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 }
