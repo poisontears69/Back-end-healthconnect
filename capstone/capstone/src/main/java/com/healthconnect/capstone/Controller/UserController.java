@@ -44,6 +44,7 @@ public class UserController {
 				return ResponseEntity.ok(authenticationService.authenticate(request));
 	}
 	
+	@CrossOrigin
 	@GetMapping("/check-username")
     public boolean checkUsernameAvailability(@RequestParam String username) {
         try {

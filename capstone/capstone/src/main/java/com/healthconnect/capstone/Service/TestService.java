@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -71,57 +72,67 @@ public class TestService {
     }
     */
    
-    public List<ClinicEntity> createSampleClinics() throws ExecutionException, InterruptedException {
-	    // Get Firestore instance
+	public List<ClinicEntity> createSampleClinics() throws ExecutionException, InterruptedException {
 	    Firestore dbFirestore = FirestoreClient.getFirestore();
 	    List<ClinicEntity> clinics = new ArrayList<>();
-	
-	    for (int i = 1; i <= 5; i++) {
-	        // Create a sample user with the role of DOCTOR
+
+	    for (int i = 6; i <= 15; i++) {
+	        // Create and save a sample doctor (UserEntity)
 	        UserEntity doctor = new UserEntity();
-	        doctor.setId(i);
 	        doctor.setUsername("drjohn" + i);
 	        doctor.setPassword("encodedPassword" + i);
 	        doctor.setEmail("drjohn" + i + "@example.com");
 	        doctor.setContactNumber("123456789" + i);
 	        doctor.setRole(Role.DOCTOR);
-	
-	        // Save the user to Firestore
-	        DocumentReference userRef = dbFirestore.collection("Users").document(doctor.getUsername());
-	        ApiFuture<WriteResult> userFuture = userRef.set(doctor);
-	        System.out.println("User " + i + " saved at: " + userFuture.get().getUpdateTime());
-	
-	        // Create a sample booking
+
+	        // Save user and capture the auto-generated ID
+	        DocumentReference userRef = dbFirestore.collection("Users").add(doctor).get();
+	        String doctorId = userRef.getId();
+	        doctor.setId(doctorId); // Set the ID in the entity
+	        System.out.println("Doctor saved with ID: " + doctorId);
+
+	        // Update user with auto-generated ID (optional if you want to store it)
+	        userRef.set(doctor);
+
+	        // Create and save a sample booking
 	        BookingEntity booking = new BookingEntity();
-	        booking.setStartTime(new Date()); // Current time
-	        booking.setEndTime(new Date(System.currentTimeMillis() + 3600 * 1000)); // 1 hour later
+	        booking.setStartTime(new Date());
+	        booking.setEndTime(new Date(System.currentTimeMillis() + 3600 * 1000)); // +1 hour
 	        booking.setBooker("patient" + i);
 	        booking.setClinic("City Clinic " + i);
 	        booking.setService("General Checkup");
-	
-	        // Save the booking to Firestore
-	        String bookingId = booking.getBooker() + "_" + booking.getStartTime().getTime();
-	        DocumentReference bookingRef = dbFirestore.collection("Bookings").document(bookingId);
-	        ApiFuture<WriteResult> bookingFuture = bookingRef.set(booking);
-	        System.out.println("Booking " + i + " saved at: " + bookingFuture.get().getUpdateTime());
-	
-	        // Create a sample clinic
+
+	        // Save booking and capture the auto-generated ID
+	        DocumentReference bookingRef = dbFirestore.collection("Bookings").add(booking).get();
+	        String bookingId = bookingRef.getId();
+	        booking.setId(bookingId);
+	        System.out.println("Booking saved with ID: " + bookingId);
+
+	        // Update booking with auto-generated ID (optional if you want to store it)
+	        bookingRef.set(booking);
+
+	        // Create and save a sample clinic
 	        ClinicEntity clinic = new ClinicEntity();
 	        clinic.setName("City Clinic " + i);
-	        clinic.setDescription("A general healthcare clinic"); // Add a description
-	        clinic.setMemberIds(Arrays.asList(doctor.getUsername())); // Add the doctor's username as a member ID
-	        clinic.setBookingIds(Arrays.asList(bookingId)); // Add the booking ID
-	
-	        // Save the clinic to Firestore
-	        DocumentReference clinicRef = dbFirestore.collection("Clinics").document(clinic.getName());
-	        ApiFuture<WriteResult> clinicFuture = clinicRef.set(clinic);
-	        System.out.println("Clinic " + i + " saved at: " + clinicFuture.get().getUpdateTime());
-	
+	        clinic.setDescription("A general healthcare clinic");
+	        clinic.setMemberIds(Collections.singletonList(doctorId)); // Link doctor by ID
+	        clinic.setBookingIds(Collections.singletonList(bookingId)); // Link booking by ID
+
+	        // Save clinic and capture the auto-generated ID
+	        DocumentReference clinicRef = dbFirestore.collection("Clinics").add(clinic).get();
+	        String clinicId = clinicRef.getId();
+	        clinic.setId(clinicId);
+	        System.out.println("Clinic saved with ID: " + clinicId);
+
+	        // Update clinic with auto-generated ID (optional if you want to store it)
+	        clinicRef.set(clinic);
+
 	        clinics.add(clinic);
 	    }
-	
+
 	    return clinics;
 	}
+
     
     public List<ClinicDTO> getAllClinics() throws ExecutionException, InterruptedException {
     	

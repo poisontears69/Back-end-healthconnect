@@ -4,24 +4,34 @@ import java.util.List;
 
 public class ClinicEntity {
 
+	private String id;
     private String name;
+    private String specialization;
     private String description;
     private List<String> memberIds; // Store user IDs instead of DocumentReference
     private List<String> bookingIds; // Store booking IDs instead of DocumentReference
+    private List<ScheduleEntity> schedules;
+    private List<ScheduleEntity> consulationHours;
+    private boolean isOnlineConsultationAvailable;
 
     // Default constructor (required for Firestore)
     public ClinicEntity() {
     }
 
-    // Parameterized constructor (optional, for convenience)
-    public ClinicEntity(String name, String description, List<String> memberIds, List<String> bookingIds) {
-        this.name = name;
-        this.description = description;
-        this.memberIds = memberIds;
-        this.bookingIds = bookingIds;
-    }
+    public ClinicEntity(String id, String name, String specialization, String description, List<String> memberIds,
+			List<String> bookingIds, List<ScheduleEntity> schedules) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.specialization = specialization;
+		this.description = description;
+		this.memberIds = memberIds;
+		this.bookingIds = bookingIds;
+		this.schedules = schedules;
+	}
 
-    // Getters and Setters
+
+	// Getters and Setters
     public String getName() {
         return name;
     }
@@ -53,6 +63,46 @@ public class ClinicEntity {
     public void setBookingIds(List<String> bookingIds) {
         this.bookingIds = bookingIds;
     }
+    
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getSpecialization() {
+		return specialization;
+	}
+
+	public void setSpecialization(String specialization) {
+		this.specialization = specialization;
+	}
+
+	public List<ScheduleEntity> getSchedules() {
+		return schedules;
+	}
+
+	public void setSchedules(List<ScheduleEntity> schedules) {
+		this.schedules = schedules;
+	}
+	
+	public boolean isOnlineConsultationAvailable() {
+		return isOnlineConsultationAvailable;
+	}
+
+	public void setOnlineConsultationAvailable(boolean isOnlineConsultationAvailable) {
+		this.isOnlineConsultationAvailable = isOnlineConsultationAvailable;
+	}
+	
+	public List<ScheduleEntity> getConsulationHours() {
+		return consulationHours;
+	}
+
+	public void setConsulationHours(List<ScheduleEntity> consulationHours) {
+		this.consulationHours = consulationHours;
+	}
 
     @Override
     public String toString() {
