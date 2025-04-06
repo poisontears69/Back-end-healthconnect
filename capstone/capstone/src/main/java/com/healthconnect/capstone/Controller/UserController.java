@@ -55,6 +55,17 @@ public class UserController {
         }
     }
 	
+	@CrossOrigin
+	@GetMapping("/get-user-by-username")
+	public UserEntity getUserByUsername(@RequestParam String username) {
+		try {
+            return userService.getUserByUsername(username);
+        } catch (InterruptedException | ExecutionException e) {
+            // Handle exceptions appropriately
+            throw new RuntimeException("Error Getting User", e);
+        }
+	}
+	
 	@GetMapping("/test")
     public String print() {
         return "sad";
